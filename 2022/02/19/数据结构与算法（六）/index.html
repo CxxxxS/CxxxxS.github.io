@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/1.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数据结构与算法（六）二叉树应用堆排序堆排序是一种选择排序，它的最坏，最好，平均时间复杂度均为O(nlogn)。堆排序将待排序序列构造成一个大顶堆，整个序列的最大值位于堆顶的根节点。之后将其与末尾元素进行交换。然后将剩余元素重新构造成一个大顶堆，重复上述过程，如此反复执行得到一个有序序列，参考。 1234567891011121314151617181920212223242526272829303">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法（六）">
+<meta property="og:url" content="http://example.com/2022/02/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%EF%BC%88%E5%85%AD%EF%BC%89/index.html">
+<meta property="og:site_name" content="CXS的博客网站">
+<meta property="og:description" content="数据结构与算法（六）二叉树应用堆排序堆排序是一种选择排序，它的最坏，最好，平均时间复杂度均为O(nlogn)。堆排序将待排序序列构造成一个大顶堆，整个序列的最大值位于堆顶的根节点。之后将其与末尾元素进行交换。然后将剩余元素重新构造成一个大顶堆，重复上述过程，如此反复执行得到一个有序序列，参考。 1234567891011121314151617181920212223242526272829303">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-19T13:54:41.000Z">
+<meta property="article:modified_time" content="2022-02-19T14:04:13.489Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>数据结构与算法（六） - CXS的博客网站</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":120,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CXS&#39; Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据结构与算法（六）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-19 21:54" pubdate>
+        2022年2月19日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      84 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据结构与算法（六）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="数据结构与算法（六）"><a href="#数据结构与算法（六）" class="headerlink" title="数据结构与算法（六）"></a>数据结构与算法（六）</h1><h2 id="二叉树应用"><a href="#二叉树应用" class="headerlink" title="二叉树应用"></a>二叉树应用</h2><h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>堆排序是一种选择排序，它的最坏，最好，平均时间复杂度均为O(nlogn)。堆排序将待排序序列构造成一个大顶堆，整个序列的最大值位于堆顶的根节点。之后将其与末尾元素进行交换。然后将剩余元素重新构造成一个大顶堆，重复上述过程，如此反复执行得到一个有序序列，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6129630.html">参考</a>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.Arrays;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HeapSort</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span>[] array = &#123;<span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">5</span>, <span class="hljs-number">9</span>&#125;;<br>        heapSorting(array);<br>        System.out.println(Arrays.toString(array));<br>    &#125;<br><br>    <span class="hljs-comment">// 堆排序</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">heapSorting</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] array)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> temp = <span class="hljs-number">0</span>;<br><span class="hljs-comment">//     将数组构建成一个大顶堆;array.length / 2 - 1所指向的位置一定是二叉树从下至上第一个非叶节点</span><br><span class="hljs-comment">//     此时由下至上构建二叉树，最后二叉树的顶端即为最大值</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = array.length / <span class="hljs-number">2</span> - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;<br>            transform_heap(array, i, array.length);<br>        &#125;<br><br>        <span class="hljs-comment">// 调整大顶堆</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = array.length - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; i--) &#123;<br>            temp = array[i];<br>            array[i] = array[<span class="hljs-number">0</span>];<br>            array[<span class="hljs-number">0</span>] = temp;<br>            transform_heap(array, <span class="hljs-number">0</span>, i);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 将以i为顶的二叉树调整为大顶堆，也即把最大值放在以i为顶的二叉树的顶部</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">transform_heap</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] array, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> length)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> temp = array[i];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">2</span> * i + <span class="hljs-number">1</span>; j &lt; length; j++) &#123;<br>            <span class="hljs-keyword">if</span> (j + <span class="hljs-number">1</span> &lt; length &amp;&amp; array[j] &lt; array[j + <span class="hljs-number">1</span>]) &#123;<br>                j += <span class="hljs-number">1</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (array[i] &lt; array[j]) &#123;<br>                array[i] = array[j];<br>                i = j;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        array[i] = temp;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Huffman树"><a href="#Huffman树" class="headerlink" title="Huffman树"></a>Huffman树</h3><p>给定N个权值作为N个叶子结点，构造一棵二叉树，若该树的带权路径长度达到最小，称这样的二叉树为最优二叉树，也称为哈夫曼树(Huffman Tree)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.Collections;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HuffmanTree</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span>[] array = &#123;<span class="hljs-number">13</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>, <span class="hljs-number">29</span>, <span class="hljs-number">6</span>, <span class="hljs-number">1</span>&#125;;<br>        NodeOfHuffmanTree huffmanTree = generateHuffmanTree(array);<br>        huffmanTree.preShow();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> NodeOfHuffmanTree <span class="hljs-title">generateHuffmanTree</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] array)</span> </span>&#123;<br>        ArrayList&lt;NodeOfHuffmanTree&gt; huffmanTree = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j : array) &#123;<br>            huffmanTree.add(<span class="hljs-keyword">new</span> NodeOfHuffmanTree(j));<br>        &#125;<br>        <span class="hljs-keyword">while</span> (huffmanTree.size() &gt; <span class="hljs-number">1</span>) &#123;<br>            Collections.sort(huffmanTree);<br><br>            NodeOfHuffmanTree left_node = huffmanTree.get(<span class="hljs-number">0</span>);<br>            NodeOfHuffmanTree right_node = huffmanTree.get(<span class="hljs-number">1</span>);<br>            NodeOfHuffmanTree parent_node = <span class="hljs-keyword">new</span> NodeOfHuffmanTree(left_node.id + right_node.id);<br><br>            parent_node.left = left_node;<br>            parent_node.right = right_node;<br><br>            huffmanTree.add(parent_node);<br>            huffmanTree.remove(left_node);<br>            huffmanTree.remove(right_node);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> huffmanTree.get(<span class="hljs-number">0</span>);<br>    &#125;<br>&#125;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NodeOfHuffmanTree</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">NodeOfHuffmanTree</span>&gt;</span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;<br>    <span class="hljs-keyword">public</span> NodeOfHuffmanTree left;<br>    <span class="hljs-keyword">public</span> NodeOfHuffmanTree right;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NodeOfHuffmanTree</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.id = id;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;NodeOfHuffmanTree&#123;&quot;</span> +<br>                <span class="hljs-string">&quot;id=&quot;</span> + id +<br>                <span class="hljs-string">&#x27;&#125;&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 前序遍历</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preShow</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.left != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">this</span>.left.preShow();<br>        &#125;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.right != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">this</span>.right.preShow();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(NodeOfHuffmanTree o)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.id - o.id;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用Huffman树进行数据加密与解密"><a href="#使用Huffman树进行数据加密与解密" class="headerlink" title="使用Huffman树进行数据加密与解密"></a>使用Huffman树进行数据加密与解密</h3><p>通过把字母出现频次构建Huffman树，进而得到各字母的编码，以此编码表即可加密与解密数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HuffmanCode</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> HashMap&lt;String, Integer&gt; frequency = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> HashMap&lt;String, String&gt; code_graph = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> StringBuilder builders = <span class="hljs-keyword">new</span> StringBuilder();<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        String sentence = <span class="hljs-string">&quot;i like like like java do you like a java&quot;</span>;<br>        frequency = getFrequency(sentence);<br><br>        <span class="hljs-keyword">int</span>[] array = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[frequency.size()];<br>        <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (Object obj: frequency.values()) &#123;<br>            array[i] = (<span class="hljs-keyword">int</span>) obj;<br>            i++;<br>        &#125;<br><br>        NodeOfHuffmanTree tree = HuffmanTree.generateHuffmanTree(array);<br><br>        getHuffmanCode(tree);<br><br>        System.out.println(code_graph);<br><br>        System.out.println(getZipStr(sentence));<br><br>        System.out.println(unZipStr(getZipStr(sentence)));<br><br>    &#125;<br><br><span class="hljs-comment">//    i like like like java do you like a java 中 d出现1次，记为d:1，则</span><br><span class="hljs-comment">//    d:1 y:1 u:1 j:2 v:2 o:2 l:4 k:4 e:4 i:5 a:5 空格:9</span><br>    <span class="hljs-comment">// 得到任意英文句子的字母出现频率</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> HashMap&lt;String, Integer&gt; <span class="hljs-title">getFrequency</span><span class="hljs-params">(String sentence)</span> </span>&#123;<br>        HashMap&lt;String, Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        <span class="hljs-keyword">int</span> length = sentence.length();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (map.containsKey(sentence.charAt(i) + <span class="hljs-string">&quot;&quot;</span>)) &#123;<br>                map.put(sentence.charAt(i) + <span class="hljs-string">&quot;&quot;</span>, map.get(sentence.charAt(i) + <span class="hljs-string">&quot;&quot;</span>) + <span class="hljs-number">1</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                map.put(sentence.charAt(i) + <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> map;<br>    &#125;<br><br><span class="hljs-comment">//    重载getHuffmanCode</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getHuffmanCode</span><span class="hljs-params">(NodeOfHuffmanTree node)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (node == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        getHuffmanCode(node.left, builders, <span class="hljs-string">&quot;0&quot;</span>);<br>        getHuffmanCode(node.right, builders, <span class="hljs-string">&quot;1&quot;</span>);<br>    &#125;<br><br><span class="hljs-comment">//    通过Huffman树找到各字母的编码</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getHuffmanCode</span><span class="hljs-params">(NodeOfHuffmanTree node, StringBuilder builder, String code)</span> </span>&#123;<br>        StringBuilder stringBuilder = <span class="hljs-keyword">new</span> StringBuilder(builder);<br>        stringBuilder.append(code);<br>        <span class="hljs-keyword">if</span> (node != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (!isLeafNode(node)) &#123;<br>                getHuffmanCode(node.left, stringBuilder, <span class="hljs-string">&quot;0&quot;</span>);<br>                getHuffmanCode(node.right, stringBuilder, <span class="hljs-string">&quot;1&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                code_graph.put(getAimChar(node.id), stringBuilder.toString());<br>            &#125;<br>        &#125;<br>    &#125;<br><br><span class="hljs-comment">//    通过数字寻找对应字母</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getAimChar</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>&#123;<br>        Set&lt;String&gt; strings = frequency.keySet();<br>        String aim = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">for</span> (String s: strings) &#123;<br>            <span class="hljs-keyword">if</span> (frequency.get(s) == i) &#123;<br>                aim = s;<br>                frequency.remove(s);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> aim;<br>    &#125;<br><br><span class="hljs-comment">//    判断是否到达叶子节点</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isLeafNode</span><span class="hljs-params">(NodeOfHuffmanTree node)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> node.left == <span class="hljs-keyword">null</span> &amp;&amp; node.right == <span class="hljs-keyword">null</span>;<br>    &#125;<br><br><span class="hljs-comment">//    生成压缩后的字符串</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getZipStr</span><span class="hljs-params">(String sentence)</span> </span>&#123;<br>        StringBuilder s = <span class="hljs-keyword">new</span> StringBuilder();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; sentence.length(); i++) &#123;<br>            s.append(code_graph.get(sentence.charAt(i) + <span class="hljs-string">&quot;&quot;</span>));<br>        &#125;<br>        <span class="hljs-keyword">return</span> s.toString();<br>    &#125;<br><br><span class="hljs-comment">//    还原字符串</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">unZipStr</span><span class="hljs-params">(String code)</span> </span>&#123;<br>        <span class="hljs-comment">// 翻转编码表</span><br>        HashMap&lt;String, String&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (String key: code_graph.keySet()) &#123;<br>            map.put(code_graph.get(key), key);<br>        &#125;<br>        StringBuilder builder = <span class="hljs-keyword">new</span> StringBuilder();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; code.length(); i++) &#123;<br>            <span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>                String s = map.get(code.substring(i, i + count));<br>                <span class="hljs-keyword">if</span> (s == <span class="hljs-keyword">null</span> &amp;&amp; i + count &lt; code.length()) &#123;<br>                    count++;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    builder.append(s);<br>                    i += count - <span class="hljs-number">1</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> builder.toString();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h3><p>二叉排序树的特点是左子节点小于其父节点，右子节点大于其父节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BinarySortTree</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span>[] array = &#123;<span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">10</span>, <span class="hljs-number">12</span>, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">9</span>, <span class="hljs-number">2</span>&#125;;<br>        NodeForBST[] list = <span class="hljs-keyword">new</span> NodeForBST[array.length];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) &#123;<br>            list[i] = <span class="hljs-keyword">new</span> NodeForBST(array[i]);<br>        &#125;<br>        BSTTree tree = <span class="hljs-keyword">new</span> BSTTree(list[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; array.length; i++) &#123;<br>            tree.getBST(list[i]);<br>        &#125;<br>        tree.midOrder();<br>        tree.deleteNode(<span class="hljs-number">2</span>);<br>        tree.midOrder();<br>        tree.deleteNode(<span class="hljs-number">10</span>);<br>        tree.midOrder();<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BSTTree</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> NodeForBST root;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BSTTree</span><span class="hljs-params">(NodeForBST node)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.root = node;<br>    &#125;<br><br>    <span class="hljs-comment">// 创建二叉排序树</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getBST</span><span class="hljs-params">(NodeForBST node)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (root == <span class="hljs-keyword">null</span>) &#123;<br>            root = node;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        root.generateBST(node);<br>    &#125;<br><br>    <span class="hljs-comment">// 中序遍历</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">midOrder</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (root == <span class="hljs-keyword">null</span>) &#123;<br>            System.out.println(<span class="hljs-string">&quot;root is empty!&quot;</span>);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        root.midOrder();<br>    &#125;<br><br>    <span class="hljs-comment">// 查找节点</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> NodeForBST <span class="hljs-title">findAimNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (root == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> root.getAimNode(id);<br>    &#125;<br><br>    <span class="hljs-comment">// 查找父节点</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> NodeForBST <span class="hljs-title">findFatherNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (root == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> root.getFatherNode(id);<br>    &#125;<br><br>    <span class="hljs-comment">// 查找最小节点的值</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMinValue</span><span class="hljs-params">(NodeForBST node)</span> </span>&#123;<br>        <span class="hljs-keyword">while</span> (node.left != <span class="hljs-keyword">null</span>) &#123;<br>            node = node.left;<br>        &#125;<br>        <span class="hljs-keyword">return</span> node.id;<br>    &#125;<br><br><span class="hljs-comment">//    删除节点</span><br><span class="hljs-comment">//    对于删除节点，应当分三种情况讨论：如果要删除的节点为叶子节点，那么只需要找到此叶子节点的父节点然后置空即可；</span><br><span class="hljs-comment">//    如果要删除的节点为单子树节点，那么需要把此节点替换为此节点的叶子节点</span><br><span class="hljs-comment">//    如果要删除的节点为双子树节点，可以使用两种方式:</span><br><span class="hljs-comment">//    第一种: 将右子树的最小值替换此节点;第二种: 将左子树的最大值替换此节点</span><br><span class="hljs-comment">//    要实现上述功能, 必须存在一个寻找指定节点的函数和一个寻找指定节点的父节点的函数</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        NodeForBST node = findAimNode(id);<br>        <span class="hljs-keyword">if</span> (node == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (node.left == <span class="hljs-keyword">null</span> &amp;&amp; node.right == <span class="hljs-keyword">null</span>) &#123;<br>            NodeForBST fatherNode = findFatherNode(id);<br>            <span class="hljs-keyword">if</span> (fatherNode.left != <span class="hljs-keyword">null</span> &amp;&amp; fatherNode.left.id == id) &#123;<br>                fatherNode.left = <span class="hljs-keyword">null</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (fatherNode.right != <span class="hljs-keyword">null</span> &amp;&amp; fatherNode.right.id == id) &#123;<br>                fatherNode.right = <span class="hljs-keyword">null</span>;<br>            &#125;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (node.left != <span class="hljs-keyword">null</span> &amp;&amp; node.right != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">int</span> value = getMinValue(node);<br>            NodeForBST node1 = findFatherNode(value);<br>            <span class="hljs-keyword">if</span> (node1.left != <span class="hljs-keyword">null</span> &amp;&amp; node1.left.id == value) &#123;<br>                node1.left = <span class="hljs-keyword">null</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                node1.right = <span class="hljs-keyword">null</span>;<br>            &#125;<br>            node.id = value;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (node.left != <span class="hljs-keyword">null</span>) &#123;<br>            node.id = node.left.id;<br>            node.left = <span class="hljs-keyword">null</span>;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        node.id = node.right.id;<br>        node.right = <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NodeForBST</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;<br>    <span class="hljs-keyword">public</span> NodeForBST left;<br>    <span class="hljs-keyword">public</span> NodeForBST right;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NodeForBST</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.id = id;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;NodeForBST&#123;&quot;</span> +<br>                <span class="hljs-string">&quot;id=&quot;</span> + id +<br>                <span class="hljs-string">&#x27;&#125;&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 寻找指定节点的父节点</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> NodeForBST <span class="hljs-title">getFatherNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> ((<span class="hljs-keyword">this</span>.right != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-keyword">this</span>.right.id == id) || (<span class="hljs-keyword">this</span>.left != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-keyword">this</span>.left.id == id)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.left != <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.id &gt; id) &#123;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.left.getFatherNode(id);<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.right != <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.id &lt; id) &#123;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.right.getFatherNode(id);<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 寻找指定节点</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> NodeForBST <span class="hljs-title">getAimNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.id == id) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.left != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-keyword">this</span>.id &gt; id) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.left.getAimNode(id);<br>        &#125;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.right != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-keyword">this</span>.id &lt; id) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.right.getAimNode(id);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 创建二叉排序树</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">generateBST</span><span class="hljs-params">(NodeForBST node)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.id &gt; node.id) &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.left == <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">this</span>.left = node;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">this</span>.left.generateBST(node);<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.right == <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">this</span>.right = node;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">this</span>.right.generateBST(node);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">// 中序遍历</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">midOrder</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.left != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">this</span>.left.midOrder();<br>        &#125;<br>        System.out.println(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.right != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">this</span>.right.midOrder();<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%EF%BC%88%E4%BA%94%EF%BC%89/">
+                        <span class="hidden-mobile">数据结构与算法（五）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
